@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Redirecting to Call</title>
+    <script type="text/javascript">
+        // Function to get query string parameters
+        function getParameterByName(name, url = window.location.href) {
+            name = name.replace(/[\[\]]/g, '\\$&');
+            var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
+                results = regex.exec(url);
+            if (!results) return null;
+            if (!results[2]) return '';
+            return decodeURIComponent(results[2].replace(/\+/g, ' '));
+        }
+
+        window.onload = function() {
+            // Get the phone number from the query string
+            var phoneNumber = getParameterByName('number');
+
+            // Check if a number was provided in the URL
+            if (phoneNumber) {
+                // Redirect to the tel: link
+                //window.location.href = "https://api.whatsapp.com/send/?phone=" + phoneNumber;
+                window.location.href = "tel:" + phoneNumber;
+            } else {
+                alert('No phone number provided!');
+            }
+        }
+    </script>
+</head>
+<body>
+    <p>If you are not redirected, <a href="#" id="phoneLink">click here to call</a>.</p>
+
+    <script type="text/javascript">
+        // Set the href for the link in case JavaScript is disabled
+        document.getElementById('phoneLink').href = "tel:" + getParameterByName('number');
+    </script>
+</body>
+</html>
